@@ -1,0 +1,266 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Polish (Poland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PLK)
+LANGUAGE LANG_POLISH, SUBLANG_DEFAULT
+#pragma code_page(1250)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\FixBinCalc.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\FixBinCalc.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_ENTER_NEW_VALUE DIALOG 0, 0, 390, 57
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Force new value"
+FONT 8, "Arial"
+BEGIN
+    EDITTEXT        IDC_EDIT_VALUE,15,31,300,14,ES_AUTOHSCROLL
+    LTEXT           "Enter new value for bit copy",IDC_STATIC,15,14,89,8
+    DEFPUSHBUTTON   "OK",IDOK,329,11,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,329,31,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_PANDORDA     BITMAP                  "res\\BoxySoft.bmp"
+
+#endif    // Polish (Poland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 304, 104
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About FixBinCalc"
+FONT 8, "Arial", 0, 0, 0x0
+BEGIN
+    CONTROL         IDB_BITMAP_PANDORDA,IDC_STATIC,"Static",SS_BITMAP,9,6,86,79
+    LTEXT           "FixBinCalc Version 3.0",IDC_STATIC,91,11,91,8,SS_NOPREFIX
+    LTEXT           "Written by Boguslaw Cyganek",IDC_STATIC,91,26,136,8
+    DEFPUSHBUTTON   "OK",IDOK,133,79,50,14,WS_GROUP
+    LTEXT           "Accompanying the book:",IDC_STATIC,91,41,91,8
+    LTEXT           "Introduction to Programming with C++ for Engineers by Wiley-IEEE",IDC_STATIC,91,56,204,8
+END
+
+IDD_FIXBINCALC_DIALOG DIALOGEX 0, 0, 604, 177
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "FixBinCalc by BC"
+FONT 8, "Arial", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "EXIT",IDOK,529,130,50,14
+    LTEXT           "Fixed integer length:",IDC_STATIC,23,23,64,8
+    EDITTEXT        IDC_EDIT_FIX_INTEGER_LENGTH,106,20,21,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    EDITTEXT        IDC_EDIT_FIXED_VAL_REPRESENTATION,140,20,439,14,ES_AUTOHSCROLL | ES_READONLY,WS_EX_RIGHT
+    LTEXT           ".",IDC_STATIC,578,32,8,8
+    LTEXT           "Fixed fractional length:",IDC_STATIC,23,43,72,8
+    EDITTEXT        IDC_EDIT_FIX_FRACTIONAL_LENGTH,106,40,21,14,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    LTEXT           "==> total bits:",IDC_STATIC,140,43,43,8
+    EDITTEXT        IDC_EDIT_TOTAL_LENGTH,190,40,25,14,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER,WS_EX_RIGHT
+    LTEXT           "==> BIN 2",IDC_STATIC,288,52,33,8
+    CONTROL         "BIN",IDC_RADIO_BIN,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,363,51,28,10
+    CONTROL         "OCT",IDC_RADIO_OCT,"Button",BS_AUTORADIOBUTTON,394,51,31,10
+    CONTROL         "U_DEC",IDC_RADIO_DEC,"Button",BS_AUTORADIOBUTTON,428,51,40,10
+    CONTROL         "HEX",IDC_RADIO_HEX,"Button",BS_AUTORADIOBUTTON,471,51,31,10
+    PUSHBUTTON      "Set Value...",IDC_BUTTON_FORCE_VALUE,524,48,50,14
+    GROUPBOX        "View Value with Base:",IDC_STATIC,350,39,229,28
+    LTEXT           "Fixed format value (BIN):",IDC_STATIC,23,77,78,8
+    EDITTEXT        IDC_EDIT_FIXED_VAL_INTEGER,106,74,229,14,ES_AUTOHSCROLL,WS_EX_RIGHT
+    LTEXT           ".",IDC_STATIC,339,77,8,8
+    EDITTEXT        IDC_EDIT_FIXED_VAL_FRACTIONAL,350,74,229,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_ERROR,17,144,82,14,ES_AUTOHSCROLL | ES_READONLY
+    GROUPBOX        "Representation error:",IDC_STATIC,10,128,101,40
+    LTEXT           "Float format value:",IDC_STATIC,225,147,59,8
+    EDITTEXT        IDC_EDIT_FLOAT_VALUE,303,144,86,14,ES_AUTOHSCROLL,WS_EX_RIGHT
+    GROUPBOX        "Float representation (decimal):",IDC_STATIC,207,128,192,40
+    PUSHBUTTON      "v",IDC_BUTTON_FIX_2_FLOAT,207,108,50,14
+    PUSHBUTTON      "^",IDC_BUTTON_FLOAT_2_FIX,349,108,50,14
+    GROUPBOX        "Fixed point representation:",IDC_STATIC,10,7,581,94
+    PUSHBUTTON      "Clear all",IDC_BUTTON_CLEAR_ALL,529,152,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "FixBinCalc MFC Application"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "FixBinCalc"
+            VALUE "LegalCopyright", "Copyright (C) 2007"
+            VALUE "OriginalFilename", "FixBinCalc.EXE"
+            VALUE "ProductName", "FixBinCalc Application"
+            VALUE "ProductVersion", "1, 0, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        RIGHTMARGIN, 236
+    END
+
+    IDD_FIXBINCALC_DIALOG, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUTBOX AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_ABOUTBOX            "&About FixBinCalc..."
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\FixBinCalc.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
