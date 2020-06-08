@@ -1,0 +1,17 @@
+
+This is a working project directory.
+Remember ALL its contents, including this file, can be deleted.
+Therefore do NOT put any source nor header files here.
+All source files should go to ../src
+All header files should go to ../include
+Remember to make frequent backups!
+
+
+
+
+
+
+
+
+
+
