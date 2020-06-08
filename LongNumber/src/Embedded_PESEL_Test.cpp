@@ -1,0 +1,25 @@
+///////////////////////////////////////////////////////
+// BC++ book
+///////////////////////////////////////////////////////
+// by Boguslaw Cyganek, Wiley, 2020
+///////////////////////////////////////////////////////
+
+
+
+
+
+
+#include "Embedded_PESEL.h"
+
+
+
+
+void Embedded_PESEL_Test( void )
+{
+	std::cout << "Size with wrapped object: " << sizeof( PESEL ) << std::endl;
+}
+
+
+
+
+
