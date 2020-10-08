@@ -3,7 +3,7 @@ Contains code of the book "Introduction to Programming with C++ for Engineers" b
 
 // ==========================================================================<br/>
 //<br/>
-// Software written by Boguslaw Cyganek to be used with the book:<br/>
+// Software written by Boguslaw Cyganek (C) to be used with the book:<br/>
 // INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS<br/>
 // Published by Wiley, 2020<br/>
 //<br/>

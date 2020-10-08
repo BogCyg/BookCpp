@@ -1,0 +1,22 @@
+# Defines the files and directories to be ignored by Git
+#
+# Defined by Boguslaw Cyganek to the repository of the book:
+# Introduction to Programming with C++ for Engineers
+# by Wiley 2020
+
+# This works as follows:
+# Blank lines or the ones starting with hash # are ignored
+# The standard regular expressions, such as *.obj work
+# Start a pattern with a forward slash / to avoid recursivity
+# End a pattern with a forward slash / to specify a directory
+# Start a pattern with an exclamation point ! to negate a pattern
+
+
+# Exclude these directories:
+
+build_linux/
+build_win/
+build_mac/
+
+FLTK/
+

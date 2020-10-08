@@ -1,6 +1,6 @@
 // ==========================================================================
 //
-// Software written by Boguslaw Cyganek to be used with the book:
+// Software written by Boguslaw Cyganek (C) to be used with the book:
 // INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS
 // Published by Wiley, 2020
 //
@@ -30,7 +30,7 @@ class TheCube
 public:
 
 	using value_type = double;
-	using size_type = int;
+	using size_type = /*int*/std::size_t;
 
 	static const size_type kDims { 3 };		// the same for all objects of this class
 
@@ -54,7 +54,7 @@ public:
 	}
 
 	// Parametric constructor
-	TheCube( const int dx, const int dy, const int dz )
+	TheCube( const /*int*/size_type dx, const /*int*/size_type dy, const /*int*/size_type dz )
 		: fDim{ dx, dy, dz }
 	{
 		// Allocate a 1D array of value_type elements and assign to fDataBuf

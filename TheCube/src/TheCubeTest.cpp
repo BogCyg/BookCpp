@@ -1,6 +1,6 @@
 // ==========================================================================
 //
-// Software written by Boguslaw Cyganek to be used with the book:
+// Software written by Boguslaw Cyganek (C) to be used with the book:
 // INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS
 // Published by Wiley, 2020
 //
@@ -56,7 +56,7 @@ void TheCube_Test( void )
 	assert( std::memcmp( cube.GetDataBuf(), testCube.GetDataBuf(), cube.Size() * sizeof( TheCube::value_type ) ) == 0 );
 
 
-	// Call the move copy constructor
+	// Call the move constructor
 	TheCube abs_cube( RetAbsCube( cube ) ); 
 
 	// Explicitly call the move assignment operator
@@ -80,7 +80,7 @@ TheCube	RetAbsCube( const TheCube & inCube )
 	// Transform all elements to their absolute values
 	std::transform( inCube.GetDataBuf(), inCube.GetDataBuf() + inCube.Size(), 
 		outCube.GetDataBuf(), [] ( TheCube::value_type v ) { return std::fabs( v ); } );
-	return outCube;			// Invokes the move constructor
+	return outCube;			// Invokes the move semantics
 }
 
 

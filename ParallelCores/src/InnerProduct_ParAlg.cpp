@@ -1,8 +1,13 @@
-///////////////////////////////////////////////////////
-// BC++ book
-///////////////////////////////////////////////////////
-// by Boguslaw Cyganek, Wiley, 2020
-///////////////////////////////////////////////////////
+// ==========================================================================
+//
+// Software written by Boguslaw Cyganek (C) to be used with the book:
+// INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS
+// Published by Wiley, 2020
+//
+// The software is supplied as is and for educational purposes
+// without any guarantees nor responsibility of its use in any application. 
+//
+// ==========================================================================
 
 
 
@@ -292,21 +297,21 @@ namespace InnerProducts
 		// The thing is that we wish Kahan because it is much faster than the sort-accum
 		auto fun_inter = [] ( const double * a, const double * b, int s ) { return InnerProduct_KahanAlg( a, b, s ); };
 
-		vector< future< double > >		my_thread_poool;
+		vector< future< double > >		my_thread_pool;
 
 		// Process all equal size chunks of data
 		std::decay< decltype( k_num_of_chunks ) >::type i {}; 
 		for( i = 0; i < k_num_of_chunks; ++ i )
-			my_thread_poool.push_back( async( std::launch::async, fun_inter, v_data_begin + i * kChunkSize, w_data_begin + i * kChunkSize, kChunkSize ) );
+			my_thread_pool.push_back( async( std::launch::async, fun_inter, v_data_begin + i * kChunkSize, w_data_begin + i * kChunkSize, kChunkSize ) );
 
 		// Process the remainder, if present
 		if( k_remainder > 0 )
 
-			my_thread_poool.push_back( async( std::launch::async, fun_inter, v_data_begin + i * kChunkSize, w_data_begin + i * kChunkSize, k_remainder ) );
+			my_thread_pool.push_back( async( std::launch::async, fun_inter, v_data_begin + i * kChunkSize, w_data_begin + i * kChunkSize, k_remainder ) );
 
-		assert( par_sum.size() == my_thread_poool.size() );
-		for( i = 0; i < my_thread_poool.size(); ++ i )
-			par_sum[ i ] = my_thread_poool[ i ].get();			// get() blocks until the async is done
+		assert( par_sum.size() == my_thread_pool.size() );
+		for( i = 0; i < my_thread_pool.size(); ++ i )
+			par_sum[ i ] = my_thread_pool[ i ].get();			// get() blocks until the async is done
 
 		return Kahan_Sort_And_Sum( par_sum );			
 		//return Kahan_Sum( par_sum );			

@@ -1,6 +1,6 @@
 // ==========================================================================
 //
-// Software written by Boguslaw Cyganek to be used with the book:
+// Software written by Boguslaw Cyganek (C) to be used with the book:
 // INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS
 // Published by Wiley, 2020
 //
@@ -45,7 +45,7 @@ const std::string msg {
 
 		Welcome to one of the projects containing code examples from the book:
 		INTRODUCTION TO PROGRAMMING WITH C++ FOR ENGINEERS
-		by Boguslaw Cyganek, Wiley 2020.
+		by Boguslaw Cyganek (C), Wiley 2020.
 
 		To find a code to launch use a search tool
 		to match a characteristic part of that code from
