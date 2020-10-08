@@ -55,8 +55,8 @@ public:
 	// A default constructor needs to be explicitly coded
 	// since the copy constructor and the assignment were added
 	// (otherwise could be skipped).
-	TPointFor( void ) : fx( T() ), fy( T() ) {}
-
+	//TPointFor( void ) : fx( T() ), fy( T() ) {}
+	TPointFor( void ) = default;
 };
 
 

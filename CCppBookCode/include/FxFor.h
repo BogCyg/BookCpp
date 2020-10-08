@@ -12,7 +12,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
-
+#include <limits>
 
 
 
@@ -23,11 +23,12 @@
 ///////////////////////////////////////////////////////////
 // Class for fixed-point data types. 
 // No saturation, no overflow control
-// SupportType - defines an integer type for the whole number
+// SupportType - defines an UNSIGNED integer type for the whole number
 // Prec - defines a number of fractional bits
 // ACC_TYPE - Accumulator type (for intermediate results)
 ///////////////////////////////////////////////////////////
 template< typename ST, int Prec, typename ACC_TYPE = unsigned long long >
+//template< typename ST, typename ST Prec, typename ACC_TYPE = unsigned long long >
 class FxFor
 {
 private:
@@ -52,15 +53,15 @@ public:
 public:
 	
 	// Local const for precision
-	enum	{ kPrec = Prec };
+	enum : ST	{ kPrec = Prec };
 
 private:
 
 	// Let's define some useful flags
-	enum	{	
-				kSignMask	= 1 << ( 8 * sizeof( ST ) - 1 ),	// sign bit (integer MSB)
-				kIntegerLSB = 1 << kPrec,						// LSB of the integer part
-				kFractMSB	= 1 << ( kPrec - 1 )				// MSB of the fract part
+	enum : ST	{	
+				kSignMask	= ST(1) << ( 8 * sizeof( ST ) - 1 ),		// sign bit (integer MSB)
+				kIntegerLSB = ST(1) << kPrec,							// LSB of the integer part
+				kFractMSB	= kPrec > 0 ? ST(1) << kPrec - ST(1) : 0	// MSB of the fract part
 			};
 
 
@@ -250,6 +251,7 @@ public:
 
 // ===================================================
 // The type converting constructor: float to fixed
+//template< typename ST, int Prec, typename ACC_TYPE >
 template< typename ST, int Prec, typename ACC_TYPE >
 constexpr FxFor< ST, Prec, ACC_TYPE >::FxFor( double x ) : fValue( 0 )
 {			
@@ -270,7 +272,7 @@ constexpr FxFor< ST, Prec, ACC_TYPE >::FxFor( double x ) : fValue( 0 )
 	double fract_part = x - int_part;
 
 	double scaled_fraction = fract_part * static_cast< double >( kIntegerLSB );
-	ST fraction = static_cast< int >( scaled_fraction );
+	ST fraction = static_cast< ST >( scaled_fraction );
 
 	fValue |= fraction;			// join the two together
 
@@ -298,46 +300,53 @@ constexpr FxFor< ST, Prec, ACC_TYPE >::operator double() const
 template< typename ST, int Prec, typename ACC_TYPE >
 constexpr FxFor< ST, Prec, ACC_TYPE >::operator char() const
 { 
-	const char kMaxOutMagnitude = -1 & ~( 1	<< sizeof( char ) * 8 - 1 );
+	constexpr char kMaxOutMagnitude { std::numeric_limits< char >::max() };
 	// The fractionalRemainder takes on 1 if the fractional part is greater or equal to 0.5
 	// and the magnitude value is less than the maximum for the output type (otherwise
 	// there would be an overflow in the output value);
-	// Left shift by ( kPrec - 1 ) to get MSB of the fractional.
-	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || DataValueAbs() >= kMaxOutMagnitude ? 0 : 1;
-	return IsPositive() ? ( fValue >> kPrec ) + fractionalRemainder : - ( GetMagnitudeOfIntegerPart() + fractionalRemainder );
+	assert( GetMagnitudeOfIntegerPart() <= kMaxOutMagnitude );		// otherwise we'll have an overflow in this conversion
+	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || GetMagnitudeOfIntegerPart() >= kMaxOutMagnitude ? ST(0) : ST(1);
+	char out_val { static_cast< char >( GetMagnitudeOfIntegerPart() + fractionalRemainder ) };
+	return IsPositive() ? out_val : - out_val;
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
 constexpr FxFor< ST, Prec, ACC_TYPE >::operator short() const
 { 
-	const char kMaxOutMagnitude = -1 & ~( 1	<< sizeof( short ) * 8 - 1 );
+	constexpr short kMaxOutMagnitude { std::numeric_limits< short >::max() };
 	// The fractionalRemainder takes on 1 if the fractional part is greater or equal to 0.5
 	// and the magnitude value is less than the maximum for the output type (otherwise
 	// there would be an overflow in the output value)
-	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || DataValueAbs() >= kMaxOutMagnitude ? 0 : 1;
-	return IsPositive() ? ( fValue >> kPrec ) + fractionalRemainder : - ( GetMagnitudeOfIntegerPart() + fractionalRemainder );
+	assert( GetMagnitudeOfIntegerPart() <= kMaxOutMagnitude );		// otherwise we'll have an overflow in this conversion
+	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || GetMagnitudeOfIntegerPart() >= kMaxOutMagnitude ? ST(0) : ST(1);
+	short out_val { static_cast< short >( GetMagnitudeOfIntegerPart() + fractionalRemainder ) };
+	return IsPositive() ? out_val : - out_val;
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
 constexpr FxFor< ST, Prec, ACC_TYPE >::operator int() const
 { 
-	const char kMaxOutMagnitude = -1 & ~( 1	<< sizeof( int ) * 8 - 1 );
+	constexpr int kMaxOutMagnitude { std::numeric_limits< int >::max() };
 	// The fractionalRemainder takes on 1 if the fractional part is greater or equal to 0.5
 	// and the magnitude value is less than the maximum for the output type (otherwise
 	// there would be an overflow in the output value)
-	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || DataValueAbs() >= kMaxOutMagnitude ? 0 : 1;
-	return IsPositive() ? ( fValue >> kPrec ) + fractionalRemainder : - ( GetMagnitudeOfIntegerPart() + fractionalRemainder );
+	assert( GetMagnitudeOfIntegerPart() <= kMaxOutMagnitude );		// otherwise we'll have an overflow in this conversion
+	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || GetMagnitudeOfIntegerPart() >= kMaxOutMagnitude ? ST(0) : ST(1);
+	int out_val { static_cast< int >( GetMagnitudeOfIntegerPart() + fractionalRemainder ) };
+	return IsPositive() ? out_val : - out_val;
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
 constexpr FxFor< ST, Prec, ACC_TYPE >::operator long() const
 { 
-	const char kMaxOutMagnitude = -1 & ~( 1	<< sizeof( long ) * 8 - 1 );
+	constexpr long kMaxOutMagnitude { std::numeric_limits< long >::max() };
 	// The fractionalRemainder takes on 1 if the fractional part is greater or equal to 0.5
 	// and the magnitude value is less than the maximum for the output type (otherwise
 	// there would be an overflow in the output value)
-	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || DataValueAbs() >= kMaxOutMagnitude ? 0 : 1;
-	return IsPositive() ? ( fValue >> kPrec ) + fractionalRemainder : - ( GetMagnitudeOfIntegerPart() + fractionalRemainder );
+	assert( GetMagnitudeOfIntegerPart() <= kMaxOutMagnitude );		// otherwise we'll have an overflow in this conversion
+	ST fractionalRemainder = ( fValue & kFractMSB ) == 0 || GetMagnitudeOfIntegerPart() >= kMaxOutMagnitude ? ST(0) : ST(1);
+	long out_val { static_cast< long >( GetMagnitudeOfIntegerPart() + fractionalRemainder ) };
+	return IsPositive() ? out_val : - out_val;
 }
 
 
@@ -577,12 +586,12 @@ typename constexpr FxFor< ST, Prec, ACC_TYPE >::FxType & FxFor< ST, Prec, ACC_TY
 	assert( sizeof( theAccumulator ) >= 2 * sizeof( ST ) );
 
 
-	theAccumulator <<= kPrec;				// we need to shift the first operand
+	theAccumulator <<= kPrec;					// we need to shift the first operand
 												// to accomodate for the integer division used 
 												// in the next statement
 
 	theAccumulator /= f.DataValueAbs();			// divide the magnitudes- we employ here the available
-												// standard multiplication of POSITIVE integers
+												// standard division of the POSITIVE integers
 
 	fValue = static_cast< ST >( theAccumulator );	// copy back the result
 
@@ -674,9 +683,7 @@ bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator == ( FxType f ) const
 template< typename ST, int Prec, typename ACC_TYPE >
 bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator != ( FxType f ) const
 {
-	assert( DataValueAbs() != 0 || IsPositive() );
-	assert( f.DataValueAbs() != 0 || f.IsPositive() );
-	return fValue != f.fValue;
+	return ! operator == ( f );
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
@@ -693,34 +700,19 @@ bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator < ( FxType f ) const
 template< typename ST, int Prec, typename ACC_TYPE >
 bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator <= ( FxType f ) const
 {
-	assert( DataValueAbs() != 0 || IsPositive() );
-	assert( f.DataValueAbs() != 0 || f.IsPositive() );
-	if( IsNegative() == true )														// we compare ABS only if the same sign
-		return f.IsNegative() == true ? DataValueAbs() >= f.DataValueAbs() : true;	// an opposite condition if both negative
-	else
-		return f.IsNegative() == true ? false : DataValueAbs() <= f.DataValueAbs();
+	return operator < ( f ) || operator == ( f );
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
 bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator > ( FxType f ) const
 {
-	assert( DataValueAbs() != 0 || IsPositive() );
-	assert( f.DataValueAbs() != 0 || f.IsPositive() );
-	if( IsNegative() == true )														// we compare ABS only if the same sign
-		return f.IsNegative() == true ? DataValueAbs() < f.DataValueAbs() : false;	// an opposite condition if both negative
-	else
-		return f.IsNegative() == true ? true : DataValueAbs() > f.DataValueAbs();
+	return ! operator <= ( f );
 }
 
 template< typename ST, int Prec, typename ACC_TYPE >
 bool constexpr FxFor< ST, Prec, ACC_TYPE >::operator >= ( FxType f ) const
 {
-	assert( DataValueAbs() != 0 || IsPositive() );
-	assert( f.DataValueAbs() != 0 || f.IsPositive() );
-	if( IsNegative() == true )														// we compare ABS only if the same sign
-		return f.IsNegative() == true ? DataValueAbs() <= f.DataValueAbs() : false;	// an opposite condition if both negative
-	else
-		return f.IsNegative() == true ? true : DataValueAbs() >= f.DataValueAbs();
+	return ! operator < ( f );
 }
 
 ///////////////////////////////////////////////////////////
@@ -781,15 +773,15 @@ constexpr auto ComputeRoundingError( const FxFor< D, P, A > f, const double d )
 // Here we define the specific data types. Be careful, however,
 // to check the size of built-in types on your machine!
 
-using FX_8_8	= FxFor< short, 8  >;
-using FX_16_16	= FxFor< int,	16 >;
-using FX_24_8	= FxFor< int,	8 >;
-using FX_8_24	= FxFor< int,	24 >;
+using FX_8_8	= FxFor< unsigned short, 8  >;
+using FX_16_16	= FxFor< unsigned int,	16 >;
+using FX_24_8	= FxFor< unsigned int,	8 >;
+using FX_8_24	= FxFor< unsigned int,	24 >;
 
 // The following types are for normalized numbers
 // for which their magnitude is less than 1.0.
-using FX_PURE_FRACT_15 = FxFor< short,	15 >;
-using FX_PURE_FRACT_31 = FxFor< int,	31 >;
+using FX_PURE_FRACT_15 = FxFor< unsigned short,	15 >;
+using FX_PURE_FRACT_31 = FxFor< unsigned int,	31 >;
 
 
 

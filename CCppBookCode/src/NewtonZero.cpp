@@ -73,7 +73,7 @@ namespace NewtonZero
 			FP df_x = deriv( fun, x_n );
 
 			// Check if we can safely divide
-			if( std::fabs( df_x ) <= loc_thresh )
+			if( std::fabs( df_x ) <= eps )
 				break;
 
 			// This is the Newton step

@@ -657,7 +657,7 @@ void OperatorReview( void )
 
 
 
-	// Group 15
+	// Group 15 (this is a separate group in C)
 	{
 		double x {};
 		// ...
@@ -669,7 +669,7 @@ void OperatorReview( void )
 
 
 
-	// Group 16, 17
+	// Group 15 (ctd.)
 	{
 		short s = -31000;	// pay attention to the maximum range of a variable
 		const long double kPi = 3.14159265358979;
@@ -725,7 +725,7 @@ void OperatorReview( void )
 
 
 
-	// Group 18
+	// Group 16
 	{
 		int q = 1;
 
@@ -767,7 +767,7 @@ int f( int & x )
 
 int g( int & x )
 {
-	return x *= 3;
+	return x *= 4;
 }
 
 void h( void )
@@ -840,3 +840,57 @@ bool check_if_not_empty_string( char * p )
 	else
 		return false;
 }
+
+
+
+// This function shows real precedence of the conditional operator ?:
+// as well as the throw operator.
+// In C++ these have THE SAME PRECEDENCE and the right-to-left associativity.
+// In C ?: has higher priority than the assignment operators (there is no throw).
+void OperatorPrecedenceTest( bool flag )
+{
+
+	int x = 0, y = 0; 
+	cout << "x=" << x << ", y=" << y << endl; 
+
+	int sign_of_x = x < 0.0 ? -1 : +1;			// this works in C++ as expected since both operators "=" as well as "?:" are right-associative,
+	cout << "sign_of_x=" << sign_of_x << endl;	// so the latter executes first; in C also but because "?:" has a higher precedence
+
+
+	// ?: and = have the same precedence
+	// and the right-to-left associativity
+	flag ? x : y = 13;
+	cout << "x=" << x << ", y=" << y << endl; 
+
+	// In C++ the above is interpreted as the following expression:
+	flag ? x : ( y = 13 );
+	cout << "x=" << x << ", y=" << y << endl; 
+
+	// In C this would be interpreted differently, as follows:
+	( flag ? x : y ) = 13;
+	cout << "x=" << x << ", y=" << y << endl << endl; 
+
+
+
+
+	// --------------------
+	// Now let's test throw
+
+	int p {};
+
+	try
+	{
+		p = flag ? 12 : throw 13;
+		p = flag ? 12 : ( throw 13 );	// the above is interpreted as this expression
+	}
+	catch( ... )
+	{
+		cout << "throw cuaght" << endl;
+	}
+
+	cout << "p=" << p << endl << endl;	// if throw is generated, then is not changed, i.e. p == 0
+										// otherwise p is changed, so p == 12
+
+}
+
+

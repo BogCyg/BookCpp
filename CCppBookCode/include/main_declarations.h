@@ -66,6 +66,9 @@ void ConstSizeArrayTest_4( void );
 
 void OperatorReview( void );
 
+void OperatorPrecedenceTest( bool );
+
+
 void MultiDimArray_Test( void );
 
 void TinyCubeTest( void );

@@ -180,9 +180,9 @@ void CondStatements( void )
 
 	{
 		double val {};
-		cin >> val;			// read val from keyboard
+		cin >> val;						// read val from keyboard
 
-		if( val >= 0.0 )			// if non-negative
+		if( val > 0.0 )					// if val larger than 0.0
 			cout << std::log( val );	// output natural logarithm of val
 		else
 			cout << "Error - Negative argument" << endl;

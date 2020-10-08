@@ -27,7 +27,7 @@ constexpr T gkPi = T( 3.1415926535897932385 );
 
 
 // A helper multiple end-of-line
-template < auto REP, auto CHAR = '\n' >
+template < auto REP = 1, auto CHAR = '\n' >
 std::ostream & endl( std::ostream & o )
 {
 	// Avoid sending endl - it flushes the stream
@@ -37,7 +37,7 @@ std::ostream & endl( std::ostream & o )
 // -----------------------------
 
 
-using std::cout, std::endl;
+using std::cout/*, std::endl*/;
 
 
 
@@ -113,6 +113,54 @@ void FxPt_Test_2( void )
 	// d2 *= 2.0;
 }
 
+
+
+void FxPt_Test_3( void )
+{
+
+	using FX_char	= FxFor< unsigned char, 0  >;
+	using FX_int	= FxFor< unsigned int,	0 >;
+
+	FX_char		x1( -5 );
+
+	FX_int		x2( 13 );
+
+
+	FX_8_8		x3( 5.5125 );
+
+	FX_16_16	x4( -13.625 );
+
+
+	cout << (double)x1 << endl;
+	cout << (double)(char)x1 << endl;
+	cout << (double)(int)x1 << endl;
+
+	cout << (double)x2 << endl;
+	cout << (double)(char)x2 << endl;
+	cout << (double)(int)x2 << endl;
+	cout << (double)(long)x2 << endl;
+
+	cout << (double)x3 << endl;
+	cout << (double)(char)x3 << endl;
+	cout << (double)(char)(x3 - FX_8_8(0.1) ) << endl;
+	cout << (double)(x3 + x1) << endl;
+	cout << (double)(x1 + x3) << endl;
+
+	if( (x3 - FX_8_8(0.1) ) > x3 )
+		cout << "(x3 - FX_8_8(0.1) ) > x3" << endl;
+	if( (x3 - FX_8_8(0.1) ) < x3 )
+		cout << "(x3 - FX_8_8(0.1) ) < x3" << endl;
+	if( (x3 - FX_8_8(0.1) ) <= x3 )
+		cout << "(x3 - FX_8_8(0.1) ) <= x3" << endl;
+	if( (x3 - FX_8_8(0.1) ) != x3 )
+		cout << "(x3 - FX_8_8(0.1) ) != x3" << endl;
+
+	cout << (double)x4 << endl;
+	cout << (double)(x4 + x2) << endl;
+	cout << (double)(x2 + x4) << endl;
+
+
+}
 
 
 

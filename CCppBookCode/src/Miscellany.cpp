@@ -29,6 +29,8 @@
 #include <functional>
 #include <regex>
 #include <list>
+#include <concepts>
+
 
 #include "range.h"
 #include "PointFor.h"
@@ -89,7 +91,7 @@ void regex_test_ext( void )
 	cout << str << endl;
 
 	// R"(   )"		for raw string
-	//regex	e_mail_pat( R"(([[:alnum:]._]+)@([[:alnum:]._]+)\.([[:alnum:]]+))" );
+	regex	e_mail_pat( R"(([[:alnum:]._]+)@([[:alnum:]._]+)\.([[:alnum:]]+))" );
 	
 	regex	pat_0( R"(([[:alnum:]._]+)@([[:alnum:]._]+))" );
 
@@ -485,4 +487,17 @@ void BubbleSortTest( void )
 
 
 // -----------------------------------------------------------------
+
+#if 0
+
+template< typename T >
+concept has_bool_value_member = requires { { T::value } -> std::convertible_to< bool >; };
+
+template< typename T >
+concept exclusively_unsigned  = requires { std::unsigned_integral< T >; };
+
+#endif
+
+// -----------------------------------------------------------------
+
 

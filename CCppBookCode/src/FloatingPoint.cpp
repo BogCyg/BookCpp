@@ -79,7 +79,7 @@ void Test_Float_1c( void )
 
 	FP_Type expected_result { 0.7f };
 	
-	FP_Type kThresh { 1e-12f };	// Let's assume an acceptable threshold
+	FP_Type kThresh { 1e-12f };	// Let's assume an acceptable threshold or set to 0
 
 	FP_Type eps = numeric_limits< FP_Type >::epsilon();
 
@@ -155,7 +155,7 @@ void IterativeFunctionTemplate( void )
 		// do computations, x_n_1 is a new value of x_n
 		// ...
 
-		thresh = std::max( thresh, eps * std::fabs( x_n ) );
+		thresh = std::max( thresh, eps * std::max( std::fabs( x_n ), std::fabs( x_n_1 ) ) );
 		
 		if( std::fabs( x_n_1 - x_n ) <= thresh )
 			break;		// x_n_1 and x_n are approximately equal

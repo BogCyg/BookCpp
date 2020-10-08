@@ -28,6 +28,7 @@ using namespace std;
 namespace fs = std/*::experimental*/::filesystem;
 
 
+using std::toupper;
 
 
 void PrintDirTree( const fs::path & inDirPath, const wstring & separator = L"" )
@@ -207,12 +208,88 @@ void TransformFileToUppercase( void )
 	if( inFl.is_open() && outFl.is_open() )
 		for( string str; getline( inFl, str ); outFl << str << endl )
 			transform( str.begin(), str.end(), // Contains loop inside
-				str.begin(), toupper );			
+				str.begin(), (int (*)(int)) std::toupper );			
 }
 
 
 // --------------------------------------------------------
 
 
+#include <numeric>
 
+
+
+void FileIteratorTest( void )
+{
+	// Zip example
+	std::vector< double >		u( 100, 1.0 );
+	std::vector< double >		w( 100, 2.0 );
+
+	std::vector< std::tuple< double, double > >	zip;
+
+	std::transform	(	u.begin(), u.end(), w.begin(), std::back_inserter( zip ),
+						[]( const auto & a, const auto & b ){ return std::make_tuple( a, b ); }	
+					);
+
+
+	// ---------------------------------------------------------
+	// Compute a cumulative size of regular files in a directory
+	auto inDirPath_str( fs::current_path() );
+	const fs::path inDirPath( inDirPath_str );
+
+	auto files_size = std::transform_reduce(
+	
+		fs::recursive_directory_iterator( inDirPath ),
+		fs::recursive_directory_iterator(),
+
+		size_t {},
+
+		// binary op for reduce
+		[]( const auto a, const auto b ){ return a + b; },											
+		// unary op for transform
+		[]( const auto & fIter ){ return fs::is_regular_file( fIter ) ? fs::file_size( fIter ) : 0; }
+	
+	);
+
+
+	// -------------------------------------------------------------
+	// A version with counting the number of processed regular files
+	auto num_files { 0 };
+	auto totSize = std::transform_reduce(
+
+		fs::recursive_directory_iterator( inDirPath ),
+		fs::recursive_directory_iterator(),
+
+		size_t {},
+
+		// binary op for reduce
+		[]( const auto a, const auto b ){ return a + b; },			
+		// unary op for transform
+		[ & nf = num_files ]( const auto & fIter ) mutable { return fs::is_regular_file( fIter ) ? ++ nf, fs::file_size( fIter ) : 0; }	
+
+	);
+
+
+
+	// ---------------------------------------------------
+	// A version with collecting file paths and file sizes
+	std::vector< std::tuple< std::wstring, size_t > >		file_zip;		// will contain pairs: file_path, file_size
+	std::transform(
+
+		fs::recursive_directory_iterator( inDirPath ),
+		fs::recursive_directory_iterator(),
+
+		back_inserter( file_zip ),
+
+		[]( const auto & fIter ){ return fs::is_regular_file( fIter ) ?	
+											std::make_tuple( fIter.path(), fs::file_size( fIter ) ) : 
+											std::make_tuple( L"", 0 ); }	// unary op for transform
+
+	);
+
+
+	for( const auto & [ fName, fSize ] : file_zip )
+		if( fSize ) std::wcout << fName << "\t" << fSize << "\n";
+
+}
 

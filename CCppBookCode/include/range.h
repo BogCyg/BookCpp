@@ -57,7 +57,7 @@ class range
 		// INPUT:
 		//		from - Starting number of the sequence.
 		//		end - Generate numbers up to, but not including this number.
-		//		step -  Difference between each number in the sequence (must not be 0).
+		//		step - Difference between each number in the sequence (must not be 0).
 		//
 		// REMARKS:
 		//		If step is 0 then the std::out_of_range is thrown
@@ -81,13 +81,13 @@ class range
 
         class range_iter 
 		{
-            T fVal;
-			const T kStep;
+			T fVal {};
+			const T kStep {};
 		public:
             range_iter( const T v, const T step ) : fVal( v ), kStep( step ) {}
-            operator T  () const			{ return fVal; }
-            operator const T & ()			{ return fVal; }
-            const T operator * () const		{ return fVal; }
+            operator T  () const				{ return fVal; }
+            operator const T & ()				{ return fVal; }
+            const T operator * () const			{ return fVal; }
             const range_iter & operator ++ ()	{ fVal += kStep; return * this; }
  
 
@@ -109,17 +109,26 @@ class range
 	public:
 
         const range_iter begin()	{ return range_iter( kFrom, kStep ); }
-        const range_iter end()		{ return range_iter( kEnd, kStep ); }
+        const range_iter end()		{ return range_iter( kEnd,	kStep ); }
 
     public:
 
 		// Conversion to any vector< T >
 		operator std::vector< T > ( void ) 
 		{
-			std::vector< T > retRange;
-			for( T i = kFrom; i < kEnd; i += kStep )
-				retRange.push_back( i );
-			return retRange;	// use RVO here
+			//std::vector< T > retRange;
+			//if( kStep > 0 )
+			//	for( T i { kFrom }; i < kEnd; i += kStep ) retRange.push_back( i );
+			//else
+			//	for( T i { kFrom }; i > kEnd; i += kStep ) retRange.push_back( i );
+
+			//return retRange;	// use RVO here
+
+
+			auto p = [this]( auto v ){ for( T i {kFrom}; i<kEnd; i+=kStep ) v.push_back(i); return v; };
+			auto n = [this]( auto v ){ for( T i {kFrom}; i>kEnd; i+=kStep ) v.push_back(i); return v; };
+
+			return kStep > 0 ? p( std::vector< T >() ) : n( std::vector< T >() );	// use RVO here
 		}
 };
 

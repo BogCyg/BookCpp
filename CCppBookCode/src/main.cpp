@@ -74,8 +74,8 @@ int main( void )
 	cout << "===========================" << endl << endl;
 
 
-	cout << msg << endl << endl;
 
+	cout << msg << endl << endl;
 
 
 	// Define some constants, starting form value 1, since our chapters also begin from 1
@@ -204,6 +204,9 @@ int main( void )
 				MultiDimArray_Test();
 
 				OperatorReview();
+
+				OperatorPrecedenceTest( true );
+				OperatorPrecedenceTest( false );
 
 
 				// Run the prime numbers sieve

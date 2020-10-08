@@ -114,7 +114,7 @@ class SchoolClassRegistry			// Class_A (whole)
 {
 	private:
 	
-		vector< Student >	fStudentGroup;	// registry aggregates students
+		vector< Student * >	fStudentGroup;	// registry aggregates students
 
 	public:
 		// FacultyRegistry code here

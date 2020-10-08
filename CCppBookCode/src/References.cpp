@@ -18,8 +18,6 @@
 #include <algorithm>
 #include <cassert>
 
-//using namespace std;
-
 
 #include <memory>
 #include <string>
@@ -385,6 +383,39 @@ void s_min_test( void )
 }
 
 
+// ------------------------------------------------------------
+// An example of PERFECT FORWARDING, i.e. lref goes as na lref,
+// and rref as an rref, without unwanted conversion. 
+
+void overloaded_fun( std::string & v ) 
+{
+	std::cout << "I'm lref version with " << v << std::endl;
+}
+
+void overloaded_fun( std::string && v ) 
+{
+	std::cout << "I'm rref version with " << v << std::endl;
+}
+
+template< typename T >
+void pass_through( T && val ) 
+{
+	// Here is the main TRICK - try to run in two variants:
+	// (1) with std::forward to "perfectly forward" passed rval refs
+	// (2) with no std::forward
+	overloaded_fun( std::forward< T >( val ) );	
+	//overloaded_fun( static_cast< T&& >( val ) );		// std::forward is equivalent to this
+}
+
+void PassThroughTest( void )
+{
+	std::string str { "Brown" };
+
+	pass_through( str );					// launch with lref (always lref)
+	pass_through( "Fox" );					// launch with rref (always rref)
+	pass_through( std::move( str ) );		// launch with rref but without std::forward will be through lref
+
+}
 
 
 
