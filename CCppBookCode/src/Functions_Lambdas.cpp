@@ -44,7 +44,7 @@ void SimpleLambda_TestFun( void )
 	// This is lambda closure
 	auto cm_2_in = 
 		// This is lambda expression
-		[] ( const double cm ) { return 2.54 * cm; };
+		[] ( const double cm ) { return 1.0 / 2.54 * cm; };
 
 
 
@@ -69,13 +69,13 @@ void LambdaTestFun_0( void )
 
 	//auto gen = bind(normal_distribution<double>{15,4.0},default_random_engine{});		// from Stroustrup
 
-
+	std::srand( std::time(0) );	// init rand
 
 	// Insert 10 random values to vec
 	generate_n( back_inserter( vec ), 10, rand );
 
 	// Print only if element less than 100
-	copy_if( vec.begin(), vec.end(), ostream_iterator< int >( cout, " " ), [] ( auto x ) { return x < 100; } );
+	copy_if( vec.begin(), vec.end(), ostream_iterator< int >( cout, " " ), [] ( auto x ) { return /*x < 100*/x % 2 != 0; } );
 
 
 	cout << endl;
@@ -92,7 +92,7 @@ void LambdaTestFun_1( void )
 	// Fill odd_vals with odd values
 	char counter {};
 	transform( odd_vals.begin(), odd_vals.end(), odd_vals.begin(), 
-			// Caption [& counter] used to pass counter by reference
+			// Capture [& counter] used to pass counter by reference
 			// auto & is an empty placeholder for the argument passed by transform
 			[& counter]( auto & ){ return 2 * counter ++ + 1; } 
 	);
@@ -120,14 +120,14 @@ void LambdaTestFun_2( void )
 	std::srand( (unsigned int) time( 0 ) );		// seed random generator 
 
 	// Generated value can be from 0 .. max_val-1
-	// We could use default caption [=] to access RAND_MAX;
+	// We could use default capture [=] to access RAND_MAX;
 	// However, a better way is to create a local copy rm
 	// via the "init capture" (generalized captures).
 	// -> int to explicitly convert return value from double to int
 	auto rand_index = [ rm = RAND_MAX ] ( const int max_val ) -> int 
 	{ 
-		return	static_cast< double >( std::rand() * max_val )	// static_cast to make
-			/	static_cast< double >( rm + 1 );				// division on double
+		return static_cast< double >( std::rand() ) * max_val		// static_cast to make
+				/ ( static_cast< double >( rm ) + 1. );				// division on double
 	};
 
 
@@ -184,12 +184,12 @@ void LambdaTestFun_3( void )
 		string	operator() ( const int kPasswordLen = 8 )
 		{
 			// Generated value can be from 0 .. max_val-1
-			// Caption [=] to access RAND_MAX
+			// Capture [=] to access RAND_MAX
 			// -> int to explicitly convert return value from double to int
 			auto rand_index = [=] ( const int max_val ) -> int 
 			{ 
-				return	static_cast< double >( rand() * max_val ) 
-					/	static_cast< double >( RAND_MAX + 1 ); 
+				return static_cast< double >( std::rand() ) * max_val		// static_cast to make
+						 / ( static_cast< double >( RAND_MAX ) + 1. );		// division on double
 			};
 
 			string pwd;
@@ -301,7 +301,7 @@ void SCUBA_Course( void )
 	// Find all with a given certificate
 	const auto cert = StudentInfo::SCUBA_Cert::kInstructor;
 	copy_if( SCUBA_Class.begin(), SCUBA_Class.end(), 
-		// [ cert ] caption to access a copy of cert
+		// [ cert ] capture to access a copy of cert
 		ostream_iterator< StudentInfo, wchar_t >( wcout, L"\n" ), 
 		[ cert ] ( const auto & a ) { return a.fCert == cert; } );
 

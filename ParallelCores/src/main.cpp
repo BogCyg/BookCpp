@@ -38,20 +38,22 @@ int main()
 {
 	std::cout << "Good day!" << std::endl;
 
-	//InnerProducts::InnerProduct_Test_GeneralExperiment();
-
-	//FindMin_Test();
-	MSE_Test();
-	return 0;
 
 	OpenMP_Test();
 
-	//OpenMP_MultMatrix_Test();
-	//OpenMP_MultMatrix_Test_1();
+	OpenMP_MultMatrix_Test();
+	OpenMP_MultMatrix_Test_1();
 
-	//OpenMP_Pi_Test();
+	OpenMP_Pi_Test();
 
-	//Parallel_Tasks_Test();
+	FindMin_Test();
+
+	MSE_Test();
+
+	Parallel_Tasks_Test();
+
+	InnerProducts::InnerProduct_Test_GeneralExperiment();
+
 
 	return 0;
 }

@@ -111,7 +111,7 @@ bool Cart_2_Polar( const double & x, const double & y, double & mag, double & an
 
 
 // constexpr for the compile time constant
-constexpr const double kPi = 3.141592653589793238463;
+constexpr double kPi = 3.141592653589793238463;
 
 // User-defined literal - to convert xx_deg into radians
 constexpr long double operator"" _deg ( long double deg )
@@ -145,7 +145,7 @@ void OperatorReview( void )
 
 
 		const double kPi = 3.14159;
-		// [=] caption denotes accessing external objects by value
+		// [=] capture denotes accessing external objects by value
 		auto area_fun = [=] ( const double & r ) { return kPi * r * r ; };
 		cout << area_fun( 13.7 ) << endl;	// area of a circle with r=13.7
 

@@ -62,7 +62,7 @@ int main()
 	cout << "Enter the investment time [months 1-100]: " << endl;
 	double m {};
 	cin >> m;
-	if( m <= 0.0 || m >= 100 )
+	if( m <= 0.0 || m > 100 )
 	{
 		cout << "Wrong value, exiting..." << endl;
 		return -1;

@@ -19,7 +19,7 @@ void RPN_Value_Test( void );
 void RPN_Tree_Test( void );
 
 
-void main( void )
+int main( void )
 {
 
 	//SimpleExpression_Test();			

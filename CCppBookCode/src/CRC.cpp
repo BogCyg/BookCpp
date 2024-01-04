@@ -17,25 +17,22 @@
 
 
 /////////////////////////////////////////////////////////////////
-// This function returns an intermediate remainder of the CRC sum.
+// Returns a remainder of the CRC sum.
 /////////////////////////////////////////////////////////////////
 //		
-// INPUT:
-//			crc - previously computed crc value
+// INPUT:	crc - previously computed crc value
 //			byte - new value to be reflected by the new crc		
 //		
-// OUTPUT:
-//			new crc value		
+// OUTPUT:	new crc value		
 //		
 // REMARKS:
 //			At the beginning the crc parameter should be set to 0.
-//			The function counts 8-bit CRC for transmission of 8-bit chars
-//			-- .	
+//			The function counts 8-bit CRC for transmission of bytes	
 //		
 unsigned char CalcCRC( unsigned char crc, unsigned char byte )
 {
-	// A representation of the x^8 + x^2 + x^1 + 1 polynomial
-	const unsigned short kPoly = 0x107;
+	// A representation of the polynomial with bits reversed and omitted MSBit==1
+	const unsigned short kPoly = 0xE0;
 
 	unsigned short x { crc };
 	x ^= byte;

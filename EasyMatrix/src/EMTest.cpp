@@ -79,6 +79,8 @@ void Easy_Matrix_Second_Test( void )
 	std::cout << "* Compute and print a product M1 * M2" << std::endl;
 	std::cout << "--------------------------------------------------------------" << std::endl;
 
+	std::vector< EMatrix > vm( 10 );
+
 
 	EMatrix		matrix_1( 3, 4 );
 	AskUserForMatrixData( matrix_1 );

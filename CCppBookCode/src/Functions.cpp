@@ -219,20 +219,6 @@ void FunctionCallTest( void )
 
 
 
-//
-//float FuelConsumption( float km, float fuel );
-//
-//
-//float FuelConsumption( float km, float fuel )
-//{
-//	return fuel / km * 100.0;
-//}
-
-
-
-
-
-
 
 // New way of defining constants
 // with variable templates
@@ -241,7 +227,7 @@ constexpr T gkPi = T( 3.1415926535897932385 );
 
 
 template < typename C >
-const C GetCircleArea( const C radius )
+C GetCircleArea( const C radius )
 {
 	return gkPi< C > * radius * radius;
 }
@@ -252,7 +238,7 @@ const C GetCircleArea( const C radius )
 
 // Returns n-th element of the Fibonacci series.
 // Recursive function
-const int	FiboRecursive( const int n )
+int	FiboRecursive( const int n )
 {
 	assert( n < 100 );	// a "fuse" not to overrun the stack
 

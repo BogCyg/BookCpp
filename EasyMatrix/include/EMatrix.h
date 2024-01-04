@@ -48,7 +48,7 @@ using RealMatrix = std::vector< RealVec >;
 
 // Set to 1 for FIRST simple version
 // Set to 2 for the SECOND object-oriented version
-#define EM_VER 2
+#define EM_VER 1
 
 
 #if EM_VER == 1
